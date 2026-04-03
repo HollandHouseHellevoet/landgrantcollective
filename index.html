@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Land Grant Collective</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+
+:root {
+  --orange: #FE5C00;
+  --orange-dim: rgba(254,92,0,0.10);
+  --black: #000000;
+  --black-soft: #0c0c0c;
+  --black-mid: #141414;
+  --white: #ffffff;
+  --gray-light: #D0D0CE;
+  --gray-mid: #63666A;
+  --gray-faint: rgba(208,208,206,0.10);
+  --gray-dim: rgba(208,208,206,0.55);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--black);
+  color: var(--white);
+  font-family: 'Source Sans 3', sans-serif;
+  font-weight: 300;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* PROGRESS BAR */
+#progress-bar {
+  position: fixed;
+  top: 0; left: 0;
+  width: 0%;
+  height: 2px;
+  background: var(--orange);
+  z-index: 999;
+  transition: width 0.1s linear;
+}
+
+/* HEADER */
+header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 5vw;
+  background: rgba(0,0,0,0.85);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--gray-faint);
+}
+
+.header-brand {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 400;
+  font-size: 1rem;
+  letter-spacing: 0.08em;
+  color: var(--white);
+}
+
+.header-brand span { color: var(--orange); }
+
+.header-meta {
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gray-mid);
+}
+
+/* SECTIONS */
+section {
+  width: 100%;
+  padding: 10vh 0;
+  position: relative;
+}
+
+.dark  { background: var(--black); }
+.dark2 { background: var(--black-mid); }
+.light { background: var(--white); }
+.osu   { background: var(--orange); }
+
+/* INNER */
+.inner {
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 0 6vw;
+}
+
+.inner-wide {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 6vw;
+}
+
+/* COVER */
+#cover {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 0 0 8vh;
+  background: var(--black);
+  position: relative;
+  overflow: hidden;
+}
+
+.cover-bg {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.cover-bg-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(12rem, 28vw, 26rem);
+  font-weight: 300;
+  color: rgba(254,92,0,0.04);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+  transform: translateX(8%);
+  user-select: none;
+}
+
+.cover-inner {
+  padding: 0 7vw;
+  position: relative;
+  z-index: 2;
+}
+
+.cover-tag {
+  font-size: 0.65rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--orange);
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.cover-tag::before {
+  content: '';
+  display: block;
+  width: 2rem;
+  height: 1px;
+  background: var(--orange);
+}
+
+.cover-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 300;
+  font-size: clamp(3.5rem, 9vw, 8rem);
+  line-height: 0.95;
+  color: var(--white);
+  margin-bottom: 2.5rem;
+  letter-spacing: -0.01em;
+}
+
+.cover-title em {
+  font-style: italic;
+  color: var(--orange);
+}
+
+.cover-sub {
+  font-size: clamp(0.85rem, 1.2vw, 1rem);
+  font-weight: 300;
+  color: var(--gray-dim);
+  letter-spacing: 0.05em;
+  max-width: 42ch;
+  line-height: 1.7;
+}
+
+.cover-rule {
+  width: 3rem;
+  height: 1px;
+  background: var(--orange);
+  margin: 2.5rem 0;
+}
+
+.cover-lockup {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-top: 3rem;
+}
+
+.cover-lockup span {
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gray-mid);
+}
+
+.cover-lockup .divider {
+  width: 1.5rem;
+  height: 1px;
+  background: var(--gray-mid);
+}
+
+/* SECTION TYPOGRAPHY */
+.eyebrow {
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--orange);
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.eyebrow::before {
+  content: '';
+  display: block;
+  width: 1.5rem;
+  height: 1px;
+  background: var(--orange);
+  flex-shrink: 0;
+}
+
+h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 300;
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  line-height: 1.1;
+  color: var(--white);
+  margin-bottom: 2.5rem;
+  max-width: 22ch;
+}
+
+h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 400;
+  font-size: clamp(1.1rem, 2vw, 1.6rem);
+  color: var(--white);
+  margin-bottom: 0.6rem;
+}
+
+p {
+  font-size: clamp(0.9rem, 1.15vw, 1.05rem);
+  line-height: 1.85;
+  color: var(--gray-dim);
+  max-width: 62ch;
+  margin-bottom: 1.4rem;
+}
+
+p:last-child { margin-bottom: 0; }
+
+.rule {
+  width: 2.5rem;
+  height: 1px;
+  background: var(--orange);
+  margin: 2rem 0;
+}
+
+/* LIGHT SECTION OVERRIDES */
+.light h2 { color: var(--black); }
+.light h3 { color: var(--black); }
+.light p  { color: rgba(0,0,0,0.58); }
+.light .eyebrow { color: var(--orange); }
+.light .eyebrow::before { background: var(--orange); }
+.light .rule { background: var(--orange); }
+
+/* OSU ORANGE SECTION OVERRIDES */
+.osu h2 { color: var(--black); }
+.osu p  { color: rgba(0,0,0,0.65); }
+.osu .eyebrow { color: rgba(0,0,0,0.5); }
+.osu .eyebrow::before { background: rgba(0,0,0,0.3); }
+.osu .rule { background: rgba(0,0,0,0.25); }
+
+/* STAT GRID */
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2.5rem;
+  margin-top: 3rem;
+}
+
+.stat-block {
+  border-top: 2px solid var(--orange);
+  padding-top: 1.25rem;
+}
+
+.stat-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 300;
+  color: var(--white);
+  line-height: 1;
+  margin-bottom: 0.5rem;
+}
+
+.stat-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gray-mid);
+  line-height: 1.5;
+}
+
+/* PANEL */
+.panel {
+  background: var(--black-mid);
+  border-left: 3px solid var(--orange);
+  padding: 2rem 2.5rem;
+  margin-top: 2.5rem;
+  max-width: 640px;
+}
+
+.panel p { color: var(--gray-dim); margin-bottom: 0; }
+
+/* PULL QUOTE */
+.pull-quote {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: clamp(1.3rem, 2.5vw, 2rem);
+  font-weight: 300;
+  line-height: 1.45;
+  color: var(--white);
+  border-left: 3px solid var(--orange);
+  padding-left: 2rem;
+  margin: 3rem 0;
+  max-width: 28ch;
+}
+
+/* TWO COL */
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6vw;
+  align-items: start;
+  margin-top: 1rem;
+}
+
+/* ITEM LIST */
+.item-list {
+  list-style: none;
+  margin-top: 2rem;
+}
+
+.item-list li {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--gray-faint);
+  font-size: clamp(0.88rem, 1.1vw, 1rem);
+  color: var(--gray-dim);
+  line-height: 1.6;
+}
+
+.item-list li::before {
+  content: '';
+  display: block;
+  width: 4px; height: 4px;
+  background: var(--orange);
+  border-radius: 50%;
+  margin-top: 0.6em;
+  flex-shrink: 0;
+}
+
+/* LIGHT OVERRIDES FOR LIST */
+.light .item-list li { color: rgba(0,0,0,0.6); border-bottom-color: rgba(0,0,0,0.07); }
+.light .item-list li::before { background: var(--orange); }
+.light .stat-num { color: var(--black); }
+.light .stat-label { color: var(--gray-mid); }
+.light .stat-block { border-top-color: var(--orange); }
+
+/* BIG STATEMENT */
+.big-statement {
+  min-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.big-statement h2 {
+  font-size: clamp(2.5rem, 5.5vw, 5rem);
+  max-width: 18ch;
+  line-height: 1.05;
+  margin-bottom: 2rem;
+}
+
+/* Q&A */
+.qa-block {
+  margin-bottom: 4rem;
+  padding-bottom: 4rem;
+  border-bottom: 1px solid var(--gray-faint);
+}
+
+.qa-block:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.qa-question {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 400;
+  font-size: clamp(1.3rem, 2.2vw, 1.8rem);
+  color: var(--white);
+  margin-bottom: 1.5rem;
+  max-width: 48ch;
+  line-height: 1.3;
+}
+
+.qa-answer {
+  font-size: clamp(0.88rem, 1.1vw, 1rem);
+  line-height: 1.85;
+  color: var(--gray-dim);
+  max-width: 60ch;
+}
+
+.qa-answer p { margin-bottom: 1rem; }
+.qa-answer p:last-child { margin-bottom: 0; }
+
+.yes-marker {
+  display: inline-block;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 1.1rem;
+  color: var(--orange);
+  margin-right: 0.5rem;
+}
+
+/* TABLE */
+.compare-wrap {
+  overflow-x: auto;
+  margin-top: 2rem;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: clamp(0.78rem, 1vw, 0.9rem);
+}
+
+thead tr {
+  border-bottom: 1px solid var(--orange);
+}
+
+th {
+  font-family: 'Source Sans 3', sans-serif;
+  font-weight: 600;
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--orange);
+  padding: 0 2rem 1.25rem 0;
+  text-align: left;
+}
+
+th:first-child { width: 28%; }
+
+td {
+  padding: 1.1rem 2rem 1.1rem 0;
+  vertical-align: top;
+  border-bottom: 1px solid var(--gray-faint);
+  color: var(--gray-dim);
+  line-height: 1.5;
+}
+
+td:first-child {
+  font-weight: 600;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--gray-light);
+}
+
+td.bad  { color: #c0392b; }
+td.good { color: #27ae60; }
+
+/* CLOSING */
+#closing {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: var(--black);
+  position: relative;
+  overflow: hidden;
+}
+
+.closing-bg {
+  position: absolute;
+  bottom: -5%;
+  right: -5%;
+  width: 50vw;
+  height: 50vw;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(254,92,0,0.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.closing-inner {
+  padding: 0 7vw;
+  position: relative;
+  z-index: 2;
+  max-width: 900px;
+}
+
+.closing-inner h2 {
+  font-size: clamp(2rem, 4.5vw, 4rem);
+  max-width: 100%;
+  margin-bottom: 3rem;
+  color: var(--white);
+}
+
+.closing-inner p {
+  font-size: clamp(1rem, 1.4vw, 1.2rem);
+  line-height: 1.8;
+  color: var(--gray-dim);
+  max-width: 56ch;
+  margin-bottom: 1.4rem;
+}
+
+.closing-final {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: clamp(1.4rem, 2.5vw, 2.2rem);
+  color: var(--white);
+  max-width: 32ch;
+  line-height: 1.4;
+  margin-top: 3rem;
+}
+
+.closing-contact {
+  margin-top: 5rem;
+  padding-top: 2.5rem;
+  border-top: 1px solid var(--gray-faint);
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.closing-contact a {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.4rem;
+  color: var(--orange);
+  text-decoration: none;
+  letter-spacing: 0.04em;
+}
+
+.closing-contact .phone {
+  font-size: 0.85rem;
+  color: var(--gray-mid);
+  letter-spacing: 0.1em;
+}
+
+.closing-contact .conf {
+  margin-top: 0.5rem;
+  font-size: 0.6rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(99,102,106,0.5);
+}
+
+/* SCROLL ANIMATIONS */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
+
+/* ORANGE ACCENT LINE */
+.section-line {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(to right, var(--orange), transparent);
+  opacity: 0.3;
+  margin-bottom: 0;
+}
+
+</style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+
+<header>
+  <div class="header-brand">The <span>Land Grant</span> Collective</div>
+  <div class="header-meta">A MedMerge Initiative · Confidential · 2026</div>
+</header>
+
+<!-- COVER -->
+<section id="cover">
+  <div class="cover-bg">
+    <div class="cover-bg-text">LGC</div>
+  </div>
+  <div class="cover-inner">
+    <div class="cover-tag">A MedMerge Initiative · OSU Health · 2026</div>
+    <div class="cover-title">The Land Grant<br><em>Collective.</em></div>
+    <div class="cover-rule"></div>
+    <div class="cover-sub">How Oklahoma State University becomes the infrastructure backbone of healthcare across the state. Without acquiring a single hospital.</div>
+    <div class="cover-lockup">
+      <span>OSU Health</span>
+      <div class="divider"></div>
+      <span>MedMerge</span>
+      <div class="divider"></div>
+      <span>Confidential</span>
+    </div>
+  </div>
+</section>
+
+<div class="section-line"></div>
+
+<!-- 01 POSITION -->
+<section class="dark2">
+  <div class="inner">
+    <div class="eyebrow reveal">How We See OSU's Position</div>
+    <h2 class="reveal reveal-delay-1">A mission that extends well beyond Stillwater.</h2>
+    <p class="reveal reveal-delay-2">Oklahoma State University is the largest higher education system in the state. Its health system carries a mission that extends well beyond Stillwater into rural communities where care is becoming harder to find and harder to sustain. Into rural hospitals that are financially fragile. Into independent physician practices across the state that are being slowly consolidated out of existence.</p>
+    <p class="reveal reveal-delay-2">OSU also carries something else: an AA- bond rating from both S&P and Fitch, built through decades of financial discipline. That rating is an asset. It represents optionality: the ability to act when others cannot.</p>
+    <p class="reveal reveal-delay-3">The question we came to discuss is what kind of action protects that optionality, and what kind expands it.</p>
+  </div>
+</section>
+
+<!-- 02 ENROLLMENT CLIFF -->
+<section class="dark">
+  <div class="inner">
+    <div class="eyebrow reveal">The Context That Shapes Everything</div>
+    <h2 class="reveal reveal-delay-1">The enrollment cliff is not a projection. It is demographic math.</h2>
+    <p class="reveal reveal-delay-2">Birth rates fell in 2007. Those children turn 18 in 2025. The decline in college-age population runs through 2039. Every university in the country is preparing for it. OSU has been preparing since 2018.</p>
+    <p class="reveal reveal-delay-2">The institutions that navigate this window well will be the ones that built revenue architecture independent of enrollment before the pressure arrived. The ones that did not will be managing fixed obligations against a shrinking revenue base.</p>
+    <p class="reveal reveal-delay-3">This is the context inside which every major capital decision OSU makes over the next five years should be evaluated.</p>
+
+    <div class="stat-grid reveal reveal-delay-3">
+      <div class="stat-block">
+        <div class="stat-num">2025</div>
+        <div class="stat-label">The cliff begins. Fourteen years of declining enrollment follow.</div>
+      </div>
+      <div class="stat-block">
+        <div class="stat-num">AA-</div>
+        <div class="stat-label">OSU bond rating. S&P and Fitch. A position worth protecting.</div>
+      </div>
+      <div class="stat-block">
+        <div class="stat-num">2039</div>
+        <div class="stat-label">The window closes. Revenue architecture built now compounds until then.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 03 CAPITAL -->
+<section class="light">
+  <div class="inner">
+    <div class="eyebrow reveal">The Capital OSU Already Has</div>
+    <h2 class="reveal reveal-delay-1">These are not costs. They are capital flows.</h2>
+    <p class="reveal reveal-delay-2">OSU Health writes checks every month. Health benefits for employees. Workers' compensation. Medical malpractice. Directors and officers liability. Errors and omissions. Property and casualty. These are treated as costs. They are not costs. They are capital flows, and they are large.</p>
+    <p class="reveal reveal-delay-2">Here is where those flows go today. Roughly 83 cents of every premium dollar pays claims. The remaining 17 cents funds something else entirely. A portion covers the carrier's administration. Another portion pays broker commissions: commissions the carrier pays, not OSU, for placing OSU's business with that carrier. What remains, 3 to 7 cents on every dollar, becomes surplus. The carrier's retained capital. UnitedHealth Group holds $25.5 billion of it. Elevance holds $40.3 billion. OSU's premium dollars helped build those numbers. OSU owns none of it.</p>
+    <p class="reveal reveal-delay-3">Then there is float. The premium arrives at the carrier on the first of the month. Claims are paid over the following 30, 60, 90 days. During that gap, the carrier holds OSU's money and invests it. The returns belong to the carrier. Warren Buffett built Berkshire Hathaway on this mechanic, not by picking stocks, but by owning insurance companies that generated float. He has been explicit about this for sixty years. The carriers processing OSU's claims run the identical model.</p>
+    <p class="reveal reveal-delay-3">This is not a complaint about carriers. It is a description of an architecture. The architecture has a geometry. Capital flows in one direction. The question is whether it has to.</p>
+  </div>
+</section>
+
+<!-- 04 GEOMETRY -->
+<section class="dark2">
+  <div class="inner">
+    <div class="eyebrow reveal">A Different Geometry</div>
+    <h2 class="reveal reveal-delay-1">The Land Grant Collective.</h2>
+    <p class="reveal reveal-delay-2">MedMerge builds the infrastructure that sits between the employer and the claim, across every line of insurance, every administrative function, every vendor relationship. For OSU Health, that infrastructure has a name: The Land Grant Collective.</p>
+    <p class="reveal reveal-delay-2">The Land Grant Collective deploys the MedMerge model with OSU Health as the anchor: the institution at the center of a shared infrastructure that every rural hospital and independent practice in the state can plug into. The anchor does not become an insurance company. It does not administer claims or set reserves or manage stop-loss counterparty relationships. What it does is own. Ownership and operations are separable. In insurance they have been artificially conflated for forty years, to the benefit of the entities that prefer employers remain on the paying end of the line.</p>
+    <p class="reveal reveal-delay-3">Inside the Land Grant Collective, the float stays inside the structure. The surplus accumulates as equity on a balance sheet the anchor holds. The underwriting margin stops leaving. Costs drop 20 to 30 percent from the first month of participation, not as a projection, but as a function of moving from retail fully-insured pricing to wholesale self-funded rates.</p>
+
+    <div class="pull-quote reveal reveal-delay-3">The combined premium spend across OSU Health, forty-five rural hospitals, and a fraction of Oklahoma's independent physician practices represents billions in annual capital flows. Today those flows build someone else's balance sheet. Inside the Land Grant Collective, they build OSU's.</div>
+
+    <p class="reveal reveal-delay-4" style="margin-top:2rem;">The line did not just move. It reversed.</p>
+  </div>
+</section>
+
+<!-- 05 RURAL -->
+<section class="dark">
+  <div class="inner">
+    <div class="eyebrow reveal">What This Means for Rural Oklahoma</div>
+    <h2 class="reveal reveal-delay-1">OSU becomes the infrastructure they cannot operate without.</h2>
+
+    <div class="two-col reveal reveal-delay-2">
+      <div>
+        <p>OSU Health has relationships with rural hospitals across the state. Those hospitals are financially fragile. They lack the actuarial scale to self-fund. They lack the purchasing density to negotiate meaningfully with carriers, pharmacy benefit managers, or stop-loss providers. They are paying retail for everything.</p>
+        <p>Inside the collective, that changes immediately. Each rural hospital that joins moves from retail to wholesale pricing across every insurance line. The 20 to 30 percent cost reduction that applies to OSU applies to them as well.</p>
+        <p>OSU does not acquire these hospitals. OSU becomes the infrastructure they cannot operate without. The hospitals stay independent. Their balance sheets stay their own. What changes is the economics, and the relationship.</p>
+      </div>
+      <div>
+        <div class="panel">
+          <h3 style="color:var(--white);margin-bottom:1rem;font-size:1rem;letter-spacing:0.05em;text-transform:uppercase;font-family:'Source Sans 3',sans-serif;font-weight:600;">The Fiserv Position</h3>
+          <p style="margin-bottom:0;">Fiserv does not own a single bank. It owns what the banks cannot operate without: the core infrastructure that makes a bank function. Each bank is independent. But migration away means rebuilding from scratch. The banks stay. The economics flow to Fiserv. OSU as anchor is the Fiserv position. Applied to rural Oklahoma healthcare.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 06 Q&A -->
+<section class="light">
+  <div class="inner">
+    <div class="eyebrow reveal">The Questions OSU Is Already Asking</div>
+    <h2 class="reveal reveal-delay-1">Four answers.</h2>
+
+    <div class="qa-block reveal reveal-delay-2">
+      <div class="qa-question"><span class="yes-marker">Yes.</span> Does this help place residents across the state?</div>
+      <div class="qa-answer">
+        <p>A network of rural hospitals inside the collective gives OSU Health a statewide footprint of institutions with formal economic relationships with OSU, not vendor relationships, but infrastructure relationships. Placing residents inside that network is a natural extension of what already exists. The hospitals want the residents. The residents get rural experience. OSU gets statewide placement without acquiring the facilities.</p>
+      </div>
+    </div>
+
+    <div class="qa-block reveal reveal-delay-2">
+      <div class="qa-question"><span class="yes-marker">Yes.</span> Does this help build a physician network throughout Oklahoma?</div>
+      <div class="qa-answer">
+        <p>Every independent practice that joins the collective gains the same economics the hospitals do: wholesale pricing, shared infrastructure, reduced administrative burden. For an independent physician practice in rural Oklahoma, the cost reduction is not marginal. It is the difference between viability and consolidation.</p>
+        <p>OSU Health, as the anchor of that collective, becomes the institution those practices are economically connected to. Not through employment. Not through acquisition. Through infrastructure. The network builds itself as each practice joins, because each practice has a reason to join that has nothing to do with loyalty and everything to do with economics.</p>
+      </div>
+    </div>
+
+    <div class="qa-block reveal reveal-delay-3">
+      <div class="qa-question"><span class="yes-marker">Yes.</span> Does this support Medicaid, Medicare, and a commercial network simultaneously?</div>
+      <div class="qa-answer">
+        <p>The collective's infrastructure is payer-agnostic. The direct contracting capability MedMerge builds operates alongside, not instead of, existing Medicaid and Medicare relationships. An independent practice inside the collective can hold Medicare and Medicaid contracts and participate in OSU's commercial network through the collective simultaneously. This is additive, not exclusive.</p>
+      </div>
+    </div>
+
+    <div class="qa-block reveal reveal-delay-3">
+      <div class="qa-question"><span class="yes-marker">Yes.</span> Does this create goodwill with independent practices across the state?</div>
+      <div class="qa-answer">
+        <p>This may be the most durable outcome. The independent physician in Enid or Woodward or Durant who joins the collective and sees their administrative costs drop, their insurance spend rationalized, and their economic relationship with OSU Health strengthened does not forget where that came from. OSU becomes the institution that made independent practice more viable, not less. In a state where hospital consolidation has been systematically eliminating independent practice for twenty years, that position is not easily replicated.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- 07 TABLE -->
+<section class="dark2">
+  <div class="inner-wide">
+    <div class="eyebrow reveal">The Financial Comparison</div>
+    <h2 class="reveal reveal-delay-1">Acquisition vs. the Land Grant Collective.</h2>
+    <div class="compare-wrap reveal reveal-delay-2">
+      <table>
+        <thead>
+          <tr>
+            <th></th>
+            <th>Acquisition</th>
+            <th>Land Grant Collective</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Transaction type</td>
+            <td>Capital deployment. Balance sheet event.</td>
+            <td class="good">Operating model. No transaction required.</td>
+          </tr>
+          <tr>
+            <td>Debt incurred</td>
+            <td class="bad">$40-80M per hospital. Debt service begins immediately.</td>
+            <td class="good">None.</td>
+          </tr>
+          <tr>
+            <td>Asset created</td>
+            <td class="bad">Depreciating. Impairment risk on distressed assets.</td>
+            <td class="good">Equity interest in the collective. Grows with density.</td>
+          </tr>
+          <tr>
+            <td>P&L impact</td>
+            <td class="bad">Depreciation, interest expense, operating losses from distressed facilities.</td>
+            <td class="good">Cost reduction of 20-30% from month one. Surplus accrues as income.</td>
+          </tr>
+          <tr>
+            <td>Debt service obligation</td>
+            <td class="bad">Fixed. Does not flex with enrollment revenue.</td>
+            <td class="good">None. Capital structure unchanged.</td>
+          </tr>
+          <tr>
+            <td>Bond rating</td>
+            <td class="bad">Leverage increase puts AA- at risk.</td>
+            <td class="good">Protected. No new debt instrument.</td>
+          </tr>
+          <tr>
+            <td>Liability assumed</td>
+            <td class="bad">Full operational liability of each acquired facility.</td>
+            <td class="good">None. Hospitals remain independent legal entities.</td>
+          </tr>
+          <tr>
+            <td>Revenue generated</td>
+            <td>Referral capture. Dependent on facility performance.</td>
+            <td class="good">Float income, underwriting margin, and surplus on billions in premium volume.</td>
+          </tr>
+          <tr>
+            <td>Enrollment cliff exposure</td>
+            <td class="bad">Fixed debt service against declining enrollment revenue. Compounding pressure.</td>
+            <td class="good">New revenue stream independent of enrollment. Hedged.</td>
+          </tr>
+          <tr>
+            <td>Exit optionality</td>
+            <td class="bad">Illiquid. Distressed assets difficult to divest.</td>
+            <td class="good">Equity position in a growing collective. Liquid over time.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- CLOSING -->
+<section id="closing">
+  <div class="closing-bg"></div>
+  <div class="closing-inner">
+    <div class="eyebrow reveal">What OSU Builds Next</div>
+    <h2 class="reveal reveal-delay-1">Every capital decision OSU makes over the next five years will build something.</h2>
+    <p class="reveal reveal-delay-2">The enrollment cliff does not pause while the decision is made. The rural hospitals do not stabilize while the structure is considered. The independent physicians across the state, in Enid, in Woodward, in Durant, in every county where consolidated systems have not yet arrived, are making their own decisions about how long independent practice remains viable.</p>
+    <p class="reveal reveal-delay-2">OSU has the scale, the mission, and the financial position to become the institution that changes that calculus. Not by acquiring the problem. By owning the infrastructure that makes the problem solvable.</p>
+    <div class="closing-final reveal reveal-delay-3">The capital to do it is already leaving OSU's accounts every month. The only question is which balance sheet it builds.</div>
+    <div class="closing-contact reveal reveal-delay-4">
+      <a href="/cdn-cgi/l/email-protection#084c7d7c6b6048656d6c656d7a6f6d266b67"><span class="__cf_email__" data-cfemail="115564657279517c74757c746376743f727e">[email&#160;protected]</span></a>
+      <span class="phone">602 · 777 · 0101</span>
+      <span class="conf">The Land Grant Collective · A MedMerge Initiative · Confidential · Internal Use Only</span>
+    </div>
+  </div>
+</section>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  // Progress bar
+  window.addEventListener('scroll', function() {
+    var scrollTop = window.scrollY;
+    var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    var pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+    document.getElementById('progress-bar').style.width = pct + '%';
+  });
+
+  // Scroll reveal
+  var reveals = document.querySelectorAll('.reveal');
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (ent
